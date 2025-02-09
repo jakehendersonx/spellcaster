@@ -1,0 +1,2 @@
+# spellcaster
+A game where you have to write spells to execute them, in C (raylib).
