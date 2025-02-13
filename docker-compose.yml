@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  spellcaster:
+    build: .
+    container_name: spellcaster
+    volumes:
+      - .:/app
+    working_dir: /app
+    stdin_open: true
+    tty: true
