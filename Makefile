@@ -1,6 +1,6 @@
 # Compiler settings
 CC = gcc
-CFLAGS = -Wall -std=c99 -D_DEFAULT_SOURCE
+CFLAGS = -Wall -std=c99 -D_DEFAULT_SOURCE -I./raylib/include
 SRC_DIR = src
 BUILD_DIR = build
 
