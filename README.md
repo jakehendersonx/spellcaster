@@ -6,3 +6,12 @@ a game where you are a wizard, and must learn how to execute and combine spells 
 ### Development
 
 developed using Rust Macroquad: https://macroquad.rs
+
+### Running
+
+uses rust nightly
+
+```bash
+cargo build
+cargo run
+```
