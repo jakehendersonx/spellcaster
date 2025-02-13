@@ -5,9 +5,12 @@ a game where you are a wizard, and must learn how to execute and combine spells 
 
 ### Development
 
-this game was developed on a macbook pro using Raylib, in C and Rust
-running Raylib on a mac isn't straight forward so a directory was shared with a Linux Docker container
-with Docker desktop running
+This game was developed on a macbook pro using Raylib, in C and Rust.
+Running Raylib on a mac isn't straight forward so a directory was shared with a Linux Docker container.
+Raylib depends on X11, a common windowing and graphics system for Linux, so we must install those labraries
+in our container.
+
+with Docker desktop running, execute...
 
 ```bash
 docker build -t spellcaster .
