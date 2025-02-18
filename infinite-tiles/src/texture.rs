@@ -239,8 +239,9 @@ impl TextureManager {
     fn evict_least_important(&mut self) {
         while let Some(id) = self.priority_queue.pop_back() {
             if let Some(texture) = self.gpu_cache.remove(&id) {
-                // Get texture data before potentially dropping the last reference
-                let data = Arc::as_ref(&texture).get_texture_data();
+                // Get texture data and convert to bytes
+                let image = Arc::as_ref(&texture).get_texture_data();
+                let bytes: Vec<u8> = image.bytes.into();
 
                 // Update metadata
                 if let Some(metadata) = self.metadata.get_mut(&id) {
@@ -259,7 +260,7 @@ impl TextureManager {
                     }
                 }
 
-                self.ram_cache.insert(id, data);
+                self.ram_cache.insert(id, bytes);
                 break;
             }
         }
