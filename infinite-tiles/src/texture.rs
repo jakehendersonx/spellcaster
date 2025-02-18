@@ -79,16 +79,18 @@ impl TextureManager {
         (width * height * channels) as usize
     }
 
-    /// Generates a procedural texture with unique patterns
     async fn generate_procedural_texture(&self, id: u32) -> Texture2D {
-        let mut image =
-            Image::gen_image_color(config::TILE_SIZE as u16, config::TILE_SIZE as u16, WHITE);
+        let tile_size: u32 = config::TILE_SIZE
+            .try_into()
+            .expect("TILE_SIZE should fit into u32");
 
+        let tile_size_u16 = u16::try_from(tile_size).expect("Tile size should fit in u16");
+        let mut image = Image::gen_image_color(tile_size_u16, tile_size_u16, WHITE);
         match id % 4 {
             0 => {
                 // Checkerboard pattern
-                for y in 0..config::TILE_SIZE as u16 {
-                    for x in 0..config::TILE_SIZE as u16 {
+                for y in 0..tile_size {
+                    for x in 0..tile_size {
                         if (x / 8 + y / 8) % 2 == 0 {
                             image.set_pixel(x, y, BLUE);
                         }
@@ -97,10 +99,10 @@ impl TextureManager {
             }
             1 => {
                 // Circle pattern
-                let center = config::TILE_SIZE as f32 / 2.0;
-                let radius = config::TILE_SIZE as f32 / 3.0;
-                for y in 0..config::TILE_SIZE as u16 {
-                    for x in 0..config::TILE_SIZE as u16 {
+                let center = tile_size as f32 / 2.0;
+                let radius = tile_size as f32 / 3.0;
+                for y in 0..tile_size {
+                    for x in 0..tile_size {
                         let dx = x as f32 - center;
                         let dy = y as f32 - center;
                         if (dx * dx + dy * dy).sqrt() < radius {
@@ -111,8 +113,8 @@ impl TextureManager {
             }
             2 => {
                 // Diagonal stripes pattern
-                for y in 0..config::TILE_SIZE as u16 {
-                    for x in 0..config::TILE_SIZE as u16 {
+                for y in 0..tile_size {
+                    for x in 0..tile_size {
                         if (x as i32 + y as i32) % 16 < 8 {
                             image.set_pixel(x, y, RED);
                         }
@@ -121,14 +123,12 @@ impl TextureManager {
             }
             3 => {
                 // Dot pattern
-                for y in 0..config::TILE_SIZE as u16 {
-                    for x in 0..config::TILE_SIZE as u16 {
+                for y in 0..tile_size {
+                    for x in 0..tile_size {
                         if x % 8 == 0 && y % 8 == 0 {
-                            for dy in 0..4 {
-                                for dx in 0..4 {
-                                    if x + dx < config::TILE_SIZE as u16
-                                        && y + dy < config::TILE_SIZE as u16
-                                    {
+                            for dy in 0..4u32 {
+                                for dx in 0..4u32 {
+                                    if x + dx < tile_size && y + dy < tile_size {
                                         image.set_pixel(x + dx, y + dy, YELLOW);
                                     }
                                 }
